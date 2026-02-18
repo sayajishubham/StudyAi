@@ -2,12 +2,13 @@ require("dotenv").config()
 const express = require("express")
 const cors = require("cors")
 const UploadRouter = require("./Routes/Upload.Route")
+const chatRouter = require("./Routes/chat.route")
 
 
 const app = express()
-
+app.use(express.json())
 app.use("/upload", UploadRouter)
-
+app.use("/chat", chatRouter)
 
 async function startServer() {
     try {
