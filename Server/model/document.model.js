@@ -1,10 +1,22 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
+const documentSchema = new mongoose.Schema({
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+    },
+    fileName: {
+        type: String,
+        required: true
+    },
+    filePath: {
+        type: String,
+        required: true
+    },
+    subject: {
+        type: String
+    }
+}, { timestamps: true });
 
-const DocumentSchema = new mongoose.Schema({
-    summary: { type: String },
-    importantQuestions,
-    keyPoints
-})
-const DocumentModel = mongoose.model("Document", DocumentSchema)
-module.exports = DocumentModel
+module.exports = mongoose.model("Document", documentSchema);

@@ -38,5 +38,10 @@ const storeChunks = async (chunks, userId, documentId) => {
 
     await vectorStore.addDocuments(formattedDocs);
 };
-
-module.exports = { initVectorStore, storeChunks, embeddings };
+const getVectorStore = () => {
+    if (!vectorStore) {
+        throw new Error("Vector store not initialized");
+    }
+    return vectorStore;
+};
+module.exports = { initVectorStore, storeChunks, embeddings, getVectorStore };

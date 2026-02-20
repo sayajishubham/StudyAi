@@ -10,7 +10,9 @@ const askQuestion = async (question, userId) => {
     const results = await vectorStore.similaritySearch(
         question,
         4,
-        { userId }
+        {
+            userId
+        }
     )
     const context = results.map((doc, i) => `source ${i + 1}(page ${doc.metadata.page},${doc.metadata.heading}):${doc.pageContent}`).join("\n\n");
 
@@ -44,14 +46,23 @@ Answer clearly and cite sources like (Page X).
         }
     ]);
 
+
+    const uniqueSources = [
+        ...new Map(
+            results.map(r => [
+                `${r.metadata.page}-${r.metadata.heading}`,
+                {
+                    page: r.metadata.page,
+                    heading: r.metadata.heading
+                }
+            ])
+        ).values()
+    ];
+
     return {
         answer: response.content,
-        sources: results.map(r => ({
-            page: r.metadata.page,
-            heading: r.metadata.heading
-        }))
+        sources: uniqueSources
     };
-
 }
 module.exports = {
     initRetriever,
